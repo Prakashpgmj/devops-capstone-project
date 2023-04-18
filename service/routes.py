@@ -3,6 +3,9 @@ from flask_api import status
 from service import app, db
 from service.models import Account
 from service.constants import BASE_URL
+import os
+
+BASE_URL = os.environ.get('BASE_URL', 'http://localhost:8000')
 
 @app.route(f"{BASE_URL}/<int:id>", methods=['GET'])
 def get_account(id):
