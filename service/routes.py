@@ -1,8 +1,19 @@
-# pylint: disable=unused-import
-from flask import jsonify, request, make_response, abort, url_for   # noqa; F401
+from flask import Flask, jsonify, request
+from flask_api import status
+from service import app, db
 from service.models import Account
-from service.common import status  # HTTP Status Codes
-from . import app  # Import Flask application
+from service.constants import BASE_URL
+
+@app.route(f"{BASE_URL}/<int:id>", methods=['GET'])
+def get_account(id):
+    """Read an Account."""
+    account = Account.query.get(id)
+    if account:
+        return jsonify(account.to_dict()), status.HTTP_200_OK
+    return jsonify({'error': 'Account not found'}), status.HTTP_404_NOT_FOUND
+
+# ... the rest of your code
+
 
 
 ############################################################
